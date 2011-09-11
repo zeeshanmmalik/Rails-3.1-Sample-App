@@ -122,9 +122,14 @@ raised following error:
     /app/.bundle/gems/ruby/1.9.1/bin/rake:19:in `<main>'
     Couldn't create database for {"encoding"=>"unicode", "port"=>5432, "username"=>"gnfjuvhwph", "adapter"=>"postgresql", "database"=>"gnfjuvhwph", "host"=>"ec2-107-20-227-173.compute-1.amazonaws.com", "password"=>"whf_1yi9w89f6UvFjno4"}
 
+Adding following to Gemfile and re-deploying on heroku solved the problem:
 
+    group :production do
+      # gems specifically for Heroku go here
+      gem "pg"
+    end
 
-
+    $ git push heroku master
 
 
 
