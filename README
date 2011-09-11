@@ -1,0 +1,78 @@
+#Rails 3.1 sample app
+This application has been developed, tested and deployed on Ubuntu 11.04 with Ruby 1.9.2.
+
+'rails s' after creating new Rails 3.1 app raised following error:
+
+$ rails s
+/home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/execjs-1.2.4/lib/execjs/runtimes.rb:45:in `autodetect': Could not find a JavaScript runtime. See https://github.com/sstephenson/execjs for a list of available runtimes. (ExecJS::RuntimeUnavailable)
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/execjs-1.2.4/lib/execjs.rb:5:in `<module:ExecJS>'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31s/gems/execjs-1.2.4/lib/execjs.rb:4:in `<top (required)>'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/coffee-script-2.2.0/lib/coffee_script.rb:1:in `require'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/coffee-script-2.2.0/lib/coffee_script.rb:1:in `<top (required)>'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/coffee-script-2.2.0/lib/coffee-script.rb:1:in `require'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/coffee-script-2.2.0/lib/coffee-script.rb:1:in `<top (required)>'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/coffee-rails-3.1.0/lib/coffee-rails.rb:1:in `require'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/coffee-rails-3.1.0/lib/coffee-rails.rb:1:in `<top (required)>'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/bundler-1.0.18/lib/bundler/runtime.rb:68:in `require'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/bundler-1.0.18/lib/bundler/runtime.rb:68:in `block (2 levels) in require'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/bundler-1.0.18/lib/bundler/runtime.rb:66:in `each'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/bundler-1.0.18/lib/bundler/runtime.rb:66:in `block in require'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/bundler-1.0.18/lib/bundler/runtime.rb:55:in `each'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/bundler-1.0.18/lib/bundler/runtime.rb:55:in `require'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/bundler-1.0.18/lib/bundler.rb:120:in `require'
+	from /home/my-home/techraptors/rails-31/rails31-sample-app/config/application.rb:7:in `<top (required)>'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/railties-3.1.0/lib/rails/commands.rb:52:in `require'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/railties-3.1.0/lib/rails/commands.rb:52:in `block in <top (required)>'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/railties-3.1.0/lib/rails/commands.rb:49:in `tap'
+	from /home/my-home/.rvm/gems/ruby-1.9.2-p180@rails-31/gems/railties-3.1.0/lib/rails/commands.rb:49:in `<top (required)>'
+	from script/rails:6:in `require'
+	from script/rails:6:in `<main>'
+
+Rails 3.1 needs a JavaScript engine for coffee-script, and Ubuntu does not have one pre-installed.
+
+Use following instructions to install node.js: https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager
+
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install nodejs
+
+Now run 'rails s' and WEBrick starts without any problem.
+
+Alternative to JavaScript engines, other than node.js, were execjs and therubyracer gems.
+For example adding following to Gemfile:
+
+gem 'execjs'
+gem 'therubyracer'
+
+and running 'bundle install' would also solve the problem. But if you need to deploy your
+application to heroku, these are not recommended as [explained on heroku doc](http://devcenter.heroku.com/articles/rails31_heroku_cedar)
+
+"If you were previously using therubyracer or therubyracer-heroku, these gems are no longer required and strongly discouraged as these gems use a very large amount of memory."
+
+#Setup
+1. Install ruby >= 1.8.7
+
+2. Install bundler gem (if it's not already installed)
+
+    $ gem install bundler
+
+3. Go to application root directory to install Rails and other gems
+
+    $ bundle install
+
+5. Create database
+
+    $ rake db:create
+
+6. Run migrations
+
+    $ rake db:migrate
+
+7. Run application
+
+    $ rails s
+
+   Visit localhost:3000 to test application
+
+
